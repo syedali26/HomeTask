@@ -1,0 +1,57 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "API_KEY", API_KEY
+            resValue 'string', "API_KEY", API_KEY
+        }
+        debug {
+            buildConfigField 'String', "API_KEY", API_KEY
+            resValue 'string', "API_KEY", API_KEY
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':domain')
+
+    implementation(
+            "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            'androidx.appcompat:appcompat:1.0.0',
+
+            'androidx.room:room-runtime:2.0.0',
+            'androidx.room:room-rxjava2:2.0.0',
+
+            "com.squareup.retrofit2:retrofit:$retrofit_version",
+            "com.squareup.retrofit2:converter-gson:$retrofit_version",
+
+            "com.jakewharton.timber:timber:$timber_version"
+    )
+
+    kapt(
+            'androidx.room:room-compiler:2.0.0'
+    )
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'com.agoda.kakao:kakao:2.4.0'
+    androidTestImplementation 'androidx.test:rules:1.1.1'
+}
